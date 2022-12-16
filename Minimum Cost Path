@@ -1,0 +1,58 @@
+class Solution
+{
+    public:
+    //Function to return the minimum cost to react at bottom
+	//right cell from top left cell.
+    int minimumCostPath(vector<vector<int>>& grid) 
+    {
+        // Code here
+        //queue<pair<pair<int,int>,int>>q;
+        
+        //priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>>pq;
+        priority_queue<pair<int, pair<int, int>>, vector<pair<int, pair<int, int>>>,
+            greater<pair<int, pair<int, int>>>> pq;
+        
+        
+        int n = grid.size();
+        int m = grid[0].size();
+        
+        vector<vector<int>>dist(n, vector<int>(m, 1e9));
+        
+        
+        
+        pq.push({grid[0][0], {0,0}});
+        
+        while(!pq.empty()) {
+            
+            int node1 = pq.top().second.first;
+            int node2 = pq.top().second.second;
+            
+            int distance = pq.top().first;
+            
+            pq.pop();
+            
+            int delrow[] = {-1,0,+1,0};
+            int delcol[] = {0, +1, 0, -1};
+            
+            for(int i = 0; i < 4; i++) {
+                int nrow = node1 + delrow[i];
+                int ncol = node2 + delcol[i];
+                
+                if(nrow >= 0 && nrow < n && ncol >= 0 && ncol < m && (distance + grid[nrow][ncol]) < dist[nrow][ncol]) {
+                    
+                    dist[nrow][ncol] = distance + grid[nrow][ncol];
+                    
+                    pq.push({dist[nrow][ncol], {nrow, ncol}});
+                }
+            }
+            
+            
+        }
+        
+        
+        
+        return dist[n-1][n-1];
+        
+        
+    }
+};
