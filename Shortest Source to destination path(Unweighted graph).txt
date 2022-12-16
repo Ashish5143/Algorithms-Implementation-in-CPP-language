@@ -1,0 +1,50 @@
+int shortestDistance(int N, int M, vector<vector<int>> A, int X, int Y) {
+        // code here
+        
+        if(A[0][0] == 0) {
+            return -1;
+        }
+        
+        vector<vector<int>>vis(N, vector<int>(M, 0));
+        queue<pair<pair<int,int>, int>>q;
+        
+        //int i = 0;
+        //int j = 0;
+        
+        q.push({{0,0}, 0});
+        
+        int drow[] = {-1, 0, +1, 0};
+        int dcol[] = {0, +1, 0, -1};
+        
+        vis[0][0] = 1;
+        
+        while(!q.empty()) {
+            
+            int p = q.front().first.first;
+            int y = q.front().first.second;
+            int x = q.front().second;
+            
+            q.pop();
+            
+            for(int k = 0; k < 4; k++) {
+            int nrow = p + drow[k];
+            int ncol = y + dcol[k];
+            
+            if(nrow >= 0 && ncol >= 0 && nrow < N && ncol < M && A[nrow][ncol] == 1 && vis[nrow][ncol] == 0) {
+                
+                if(nrow == X && ncol == Y) {
+                    return x+1;
+                }
+                
+                else {
+                    q.push({{nrow,ncol}, x+1});
+                    vis[nrow][ncol] = 1;
+                }
+            }
+        }
+        }
+        
+        return -1;
+        
+        
+    }
