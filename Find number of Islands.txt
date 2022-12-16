@@ -1,0 +1,52 @@
+void bfs(int i, int j, vector<vector<int>>&vis, vector<vector<char>>grid, int rows, int col)
+    {
+        vis[i][j] = 1;
+        
+        queue<pair<int,int>>x;
+        
+        x.push({i, j});
+        
+        while(!x.empty()) {
+            int p = x.front().first;
+            int q = x.front().second;
+            x.pop();
+            
+            //traverse in the neighbours in all 8 directions and mark them if not visited.
+            for(int delrow = -1; delrow <= 1; delrow++) {
+                for(int delcol = -1; delcol <= 1; delcol++) {
+                    int nrow = p + delrow;
+                    int ncol = q + delcol;
+                    
+                    if(nrow >= 0 && ncol >= 0 && nrow < rows && ncol < col && vis[nrow][ncol] == 0 && grid[nrow][ncol] == '1') {
+                        vis[nrow][ncol] = 1;
+                        x.push({nrow, ncol});
+                        
+                    }
+                }
+            }
+            
+        }
+                    
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        // Code here
+        int rows = grid.size();
+        int col = grid[0].size();
+        
+        vector<vector<int>>vis(rows, vector<int>(col, 0));
+        
+        int count = 0;
+        
+        for(int i = 0; i < rows; i++) {
+            for(int j = 0; j < col; j++) {
+                if(!vis[i][j] && grid[i][j] == '1') {
+                    bfs(i, j, vis, grid, rows, col);
+                    count++;
+                }
+            }
+        }
+        
+        return count;
+    }
+};
