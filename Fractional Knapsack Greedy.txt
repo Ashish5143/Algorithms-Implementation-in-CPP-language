@@ -1,0 +1,34 @@
+double fractionalKnapsack(int W, Item arr[], int n)
+    {
+        //vector<pair<int,int>>v;
+        
+        int i;
+        double res = 0.0;
+        
+        //for(i = 0; i < n; i++) {
+           // v.push_back(make_pair(value[i], weight[i]));
+        //}
+        
+        sort(arr, arr+n, mycomp);
+        
+        for(i = 0; i < n; i++) {
+            
+            if( W <= 0) {
+                break;
+            }
+            
+            if(arr[i].weight <= W) {
+                W = W - arr[i].weight;
+                res = res + arr[i].value;
+            }
+            
+            else {
+                res = res + arr[i].value * ((double)W/arr[i].weight);
+                W = 0;
+            }
+        }
+        
+        return res;
+        
+        
+    }
