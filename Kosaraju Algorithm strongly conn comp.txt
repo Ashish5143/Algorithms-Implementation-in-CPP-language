@@ -1,0 +1,77 @@
+void topodfs(int node, vector<int>adj[], vector<int>&vis,stack<int>&s) 
+	{
+	    //stack<int>s;
+	    vis[node] = 1;
+	    for(auto it : adj[node]) {
+	        if(!vis[it]) {
+	            topodfs(it, adj, vis, s);
+	        }
+	        
+	    }
+	    
+	    s.push(node);
+	    
+	    
+	}
+	
+	void kosascc(int node, vector<int>trans[], stack<int>&s, vector<int>&vis, int &count)
+	{
+	    vis[node] = 1;
+	    //int count = 0;
+	    for(auto it : trans[node]) {
+	        if(!vis[it]) {
+	            kosascc(it, trans, s, vis, count);
+	        }
+	        
+	    }
+	    //count++;
+	    
+	}
+	
+	int transpose(int V, vector<int>adj[], vector<int>trans[], stack<int>&s)
+	{
+	    //vector<int>trans[V];
+	    for(int i = 0; i < V; i++) {
+	        for(auto it : adj[i]) {
+	            trans[it].push_back(i);
+	        }
+	    }
+	    
+	    vector<int>vis(V, 0);
+	    int count = 0;
+	    
+	    while(!s.empty()) {
+	        int t = s.top();
+	        s.pop();
+	        if(!vis[t]) {
+	            kosascc(t, trans, s, vis, count);
+	            count++;
+	        }
+	        
+	    }
+	    
+	    return count;
+	    
+	    
+	}
+	
+    int kosaraju(int V, vector<int> adj[])
+    {
+        vector<int>vis(V, 0);
+	    vector<int>v;
+	    stack<int>s;
+	    vector<int>trans[V];
+	    
+	    for(int i = 0; i < V; i++) {
+	        if(!vis[i]) {
+	            topodfs(i, adj, vis, s);
+	        }
+	        
+	    }
+	    
+	    int x = transpose(V, adj, trans, s);
+	    
+	    return x;
+	    
+	    
+    }
