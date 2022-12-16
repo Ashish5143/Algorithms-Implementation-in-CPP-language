@@ -1,0 +1,39 @@
+bool cyclethere(int s, int V, vector<int>adj[], vector<int>&vis)
+    {
+        queue<pair<int,int>>q;
+        vis[s] = true;
+        q.push({s, -1});
+        
+        while(!q.empty()) {
+            int node = q.front().first;
+            int par = q.front().second;
+            q.pop();
+            
+            for(auto it : adj[node]) {
+                if(!vis[it]) {
+                    vis[it] = true;
+                    q.push({it, node});
+                }
+                
+                else if(it != par) {
+                    return true;
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    bool isCycle(int V, vector<int> adj[]) {
+        vector<int>vis(V, 0);
+        
+        for(int i = 0; i < V; i++) {
+            if(!vis[i]) {
+                if(cyclethere(i, V, adj, vis)) {
+                    return true;
+                }
+            }
+        }
+        
+        return false; // after the for loop is finished and we do not get cycle we return false;
+    }
